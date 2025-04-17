@@ -1,12 +1,64 @@
-# React + Vite
+# 🎬 Moviefy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Moviefy adalah aplikasi web sederhana untuk menelusuri dan melihat detail film terbaru dari TMDB API. Dibuat menggunakan React dan TailwindCSS, dengan antarmuka modern yang responsif dan mudah digunakan.
 
-Currently, two official plugins are available:
+## ✨ Fitur Utama
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🎥 Menampilkan daftar film populer
+- 📄 Halaman detail lengkap untuk setiap film
+- 🔍 Responsif di semua ukuran layar
+- 🌙 Dark mode look dengan nuansa modern
+- 🍔 Navbar mobile dengan hamburger menu dan animasi slide
+- 🚀 Konsumsi data langsung dari TMDB API
 
-## Expanding the ESLint configuration
+## 🛠️ Teknologi yang Digunakan
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React
+- React Router DOM
+- TailwindCSS
+- TMDB API
+- Vite (jika kamu pakai)
+
+## 📦 Instalasi
+
+```bash
+# Clone repositori ini
+git clone https://github.com/username/moviefy.git
+
+# Masuk ke folder proyek
+cd moviefy
+
+# Install dependencies
+npm install
+
+# Jalankan aplikasi di lokal
+npm run dev
+
+```
+
+🔑 API Key
+Untuk menjalankan aplikasi ini, kamu perlu mendapatkan API Key dari The Movie Database (TMDB).
+
+Daftar dan login ke TMDB
+
+Dapatkan API Key dari dashboard akun kamu
+
+Buat file .env di root project dan tambahkan:
+```bash
+VITE_TMDB_API_KEY=your_api_key_here
+```
+
+```bash
+src/
+│
+├── api/             # Koneksi API TMDB
+├── components/      # Komponen UI reusable (Navbar, Card, dll)
+├── pages/           # Halaman seperti Home, MovieDetail, About
+├── App.jsx          # Routing utama
+└── main.jsx         # Entry point React
+```
+
+👨‍💻 Kontribusi
+Pull request dan ide baru sangat terbuka! Jangan ragu untuk membuat issue atau fitur baru.
+
+
