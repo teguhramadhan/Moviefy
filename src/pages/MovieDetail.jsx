@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getMovieDetail } from '../api/tmdb'; // pastikan kamu punya fungsi ini di tmdb.js
+import { getMovieDetail } from '../api/tmdb';
+import { getSuggestions } from '../api/tmdb'; // pastikan import ini ada
+ // pastikan kamu punya fungsi ini di tmdb.js
 
 const MovieDetail = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [suggestions, setSuggestions] = useState([]);
+
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -21,6 +25,28 @@ const MovieDetail = () => {
 
     fetchMovie();
   }, [id]);
+
+  useEffect(() => {
+    
+    const fetchMovieAndSuggestions = async () => {
+      try {
+        // Mendapatkan detail film
+        const movieData = await getMovieDetail(id);
+        setMovie(movieData);
+  
+        // Mendapatkan film saran
+        const suggestionsData = await getSuggestions(id); // buat fungsi ini di API Anda
+        setSuggestions(suggestionsData.results);
+      } catch (error) {
+        console.error('Error fetching movie and suggestions:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchMovieAndSuggestions();
+  }, [id]);
+  
 
   useEffect(() => {
     if (movie?.title) {
@@ -43,7 +69,7 @@ const MovieDetail = () => {
 
   return (
     
-  <div className="max-w-7xl mt-[90px] lg:ml-[90px] px-4 text-white">
+  <div className="max-w-full mt-[90px] lg:mx-[90px] px-4 text-white">
     <div className="flex py-[32px]">
     <a href="/" className="flex hover:text-orange-500 hover:transition hover:duration-300">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
@@ -59,13 +85,17 @@ const MovieDetail = () => {
       <img
         src={imageUrl}
         alt={movie.title}
-        className="w-full sm:w-[250px] md:w-[300px] lg:w-[350px] h-auto aspect-auto rounded-lg shadow-lg"
+        className="
+        w-full h-[250px] sm:w-full md:w-[140px] lg:w-[160px]
+        aspect-square sm:aspect-square md:aspect-auto lg:aspect-auto
+        object-contain 
+        rounded-lg shadow-lg"
       />
       
       {/* Detail Film */}
       <div className="flex-1 mt-6 md:mt-0"> {/* Margin atas hanya muncul di mobile */}
         <h2 className="text-3xl font-bold mb-2">{movie.title}</h2>
-        <p className="text-gray-300 mb-4">{movie.overview || 'Tidak ada deskripsi.'}</p>
+        <p className="text-gray-300 mb-4 text-justify">{movie.overview || 'Tidak ada deskripsi.'}</p>
         
         <div className="mb-2">
           <span className="font-semibold">Release Date:</span> {movie.release_date}
@@ -83,8 +113,26 @@ const MovieDetail = () => {
         </button>
       </div>
     </div>
-  </div>
-
+      {/* Movie Suggestions */}
+      <div className="mt-8">
+        <h3 className="text-2xl font-bold mb-4">Similar Movies</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+          {suggestions.map((suggestedMovie) => (
+            <div key={suggestedMovie.id} className="bg-gray-800 rounded-lg overflow-hidden">
+              <img
+                src={suggestedMovie.poster_path ? `https://image.tmdb.org/t/p/w500${suggestedMovie.poster_path}` : defaultImageUrl}
+                alt={suggestedMovie.title}
+                className="w-full h-[250px] object-cover"
+              />
+              <div className="p-4">
+                <h4 className="text-lg font-semibold">{suggestedMovie.title}</h4>
+                <p className="text-gray-400 text-sm">{suggestedMovie.release_date}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 

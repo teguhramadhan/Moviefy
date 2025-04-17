@@ -70,4 +70,12 @@ export const getMovieDetail = async (id) => {
   }
 };
 
+export const getSuggestions = async (movieId) => {
+  const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/recommendations?api_key=d7f7614bae7621f27f375218705f5fd5`);
+  const data = await response.json();
+  return data;
+};
+
+
+
 export default tmdbApi;
